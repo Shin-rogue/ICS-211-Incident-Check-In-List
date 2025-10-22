@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICS 211 - Incident Check-In List (Philippines)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1e3a8a" />
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 12px;
+      padding: 3px;
+    }
+    th { background-color: #f3f4f6; }
+    @media print {
+      .no-print { display: none; }
+      body { -webkit-print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body class="p-4 bg-gray-50">
+  <div class="bg-white shadow-lg p-4 border border-black">
+    <div class="text-center border-b border-black pb-2 mb-2">
+      <h1 class="font-bold text-xl">INCIDENT CHECK-IN LIST</h1>
+      <p class="font-semibold">ICS 211</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-2">
+      <div>
+        <label class="font-semibold">1. INCIDENT/EVENT NAME:</label>
+        <input id="incidentName" type="text" class="border-b border-gray-400 w-full" />
+      </div>
+      <div>
+        <label class="font-semibold">2. START DATE AND TIME:</label><br />
+        Date: <input id="startDate" type="date" class="border-b border-gray-400" />
+        Time: <input id="startTime" type="time" class="border-b border-gray-400" />
+      </div>
+      <div class="md:col-span-2">
+        <label class="font-semibold">3. CHECK-IN LOCATION (Please check):</label>
+        <div class="flex gap-4 mt-1">
+          <label><input type="checkbox" id="base" /> Base</label>
+          <label><input type="checkbox" id="camp" /> Camp</label>
+          <label><input type="checkbox" id="staging" /> Staging Area</label>
+          <label><input type="checkbox" id="icp" /> ICP</label>
+          <label><input type="checkbox" id="others" /> Others</label>
+        </div>
+      </div>
+    </div>
+    <table class="w-full mb-3">
+      <thead>
+        <tr>
+          <th rowspan="2">Order/Request No.</th>
+          <th rowspan="2">Check-in Date and Time</th>
+          <th rowspan="2">Kind</th>
+          <th rowspan="2">Type</th>
+          <th colspan="3">Resource Identifier</th>
+          <th rowspan="2">Name of Agency / Office / Home Base</th>
+          <th rowspan="2">Name of Leader</th>
+          <th rowspan="2">Contact Details</th>
+          <th rowspan="2">Total No. of Pers.</th>
+          <th colspan="3">Departure Details</th>
+          <th colspan="2">With Manifest?</th>
+          <th rowspan="2">Incident Assignment</th>
+          <th rowspan="2">Other Qualifications</th>
+          <th rowspan="2">Data Sent to RESL</th>
+        </tr>
+        <tr>
+          <th>Single Resource</th>
+          <th>ST</th>
+          <th>TF</th>
+          <th>Point of Origin</th>
+          <th>Date and Time</th>
+          <th>Method of Travel</th>
+          <th>Yes</th>
+          <th>No</th>
+        </tr>
+      </thead>
+      <tbody id="checkinBody">
+        <tr>
+          <td><input type="text" class="w-full" /></td>
+          <td><input type="datetime-local" class="w-full" /></td>
+          <td>
+            <select class="w-full border border-gray-300 rounded">
+              <option value="">--Select--</option>
+              <option>Personnel</option>
+              <option>Vehicle</option>
+              <option>Equipment</option>
+              <option>Supplies</option>
+            </select>
+          </td>
+          <td>
+            <select class="w-full border border-gray-300 rounded">
+              <option value="">--Select--</option>
+              <option>Ground</option>
+              <option>Air</option>
+              <option>Marine</option>
+              <option>Medical</option>
+            </select>
+          </td>
+          <td><input type="text" class="w-full" placeholder="Single Resource" /></td>
+          <td><input type="text" class="w-full" placeholder="ST" /></td>
+          <td><input type="text" class="w-full" placeholder="TF" /></td>
+          <td><input type="text" class="w-full" placeholder="Agency/Office" /></td>
+          <td><input type="text" class="w-full" placeholder="Leader Name" /></td>
+          <td><input type="text" class="w-full" placeholder="Contact No." /></td>
+          <td><input type="number" class="w-full" /></td>
+          <td><input type="text" class="w-full" placeholder="Point of Origin" /></td>
+          <td><input type="datetime-local" class="w-full" /></td>
+          <td>
+            <select class="w-full border border-gray-300 rounded">
+              <option value="">--Select--</option>
+              <option>Land</option>
+              <option>Air</option>
+              <option>Sea</option>
+              <option>On Foot</option>
+            </select>
+          </td>
+          <td><input type="checkbox" /></td>
+          <td><input type="checkbox" /></td>
+          <td>
+            <select class="w-full border border-gray-300 rounded">
+              <option value="">--Select--</option>
+              <option>Rescue</option>
+              <option>Medical</option>
+              <option>Security</option>
+              <option>Logistics</option>
+              <option>Other</option>
+            </select>
+          </td>
+          <td><input type="text" class="w-full" placeholder="Qualifications" /></td>
+          <td><input type="checkbox" /></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="no-print flex flex-wrap gap-2 mb-3">
+      <button onclick="addRow()" class="bg-blue-600 text-white px-4 py-1 rounded">Add Row</button>
+      <button onclick="saveData()" class="bg-yellow-600 text-white px-4 py-1 rounded">Save Offline</button>
+      <button onclick="loadData()" class="bg-purple-600 text-white px-4 py-1 rounded">Load Saved</button>
+      <button onclick="clearData()" class="bg-red-600 text-white px-4 py-1 rounded">Clear</button>
+      <button onclick="window.print()" class="bg-green-600 text-white px-4 py-1 rounded">Print</button>
+    </div>
+    <div class="text-sm mt-2 border-t border-black pt-2">
+      <div class="flex justify-between">
+        <div>
+          Page <input type="number" class="border-b border-gray-400 w-12 text-center" /> of
+          <input type="number" class="border-b border-gray-400 w-12 text-center" />
+        </div>
+        <div>
+          <strong>5. Prepared by:</strong>
+          (<input type="text" class="border-b border-gray-400 w-32 text-center" placeholder="Position" />)
+          Name and Signature:
+          <input type="text" class="border-b border-gray-400 w-48" />
+          Date Prepared:
+          <input type="date" class="border-b border-gray-400" />
+          Time Prepared:
+          <input type="time" class="border-b border-gray-400" />
+        </div>
+      </div>
+    </div>
+    <p class="text-xs text-gray-600 mt-2 text-right">Use additional sheets as needed</p>
+  </div>
+  <script>
+    function addRow() {
+      const body = document.getElementById('checkinBody');
+      const firstRow = body.rows[0];
+      const newRow = firstRow.cloneNode(true);
+      newRow.querySelectorAll('input, select').forEach(el => {
+        if (el.type === 'checkbox') el.checked = false;
+        else el.value = '';
+      });
+      body.appendChild(newRow);
+    }
+    function collectData() {
+      const data = {
+        incident: document.getElementById("incidentName").value,
+        startDate: document.getElementById("startDate").value,
+        startTime: document.getElementById("startTime").value,
+        checkboxes: {
+          base: base.checked, camp: camp.checked,
+          staging: staging.checked, icp: icp.checked, others: others.checked
+        },
+        rows: []
+      };
+      document.querySelectorAll("#checkinBody tr").forEach(row => {
+        const inputs = Array.from(row.querySelectorAll("input, select")).map(i =>
+          i.type === "checkbox" ? i.checked : i.value
+        );
+        data.rows.push(inputs);
+      });
+      return data;
+    }
+    function saveData() {
+      localStorage.setItem("ics211Data", JSON.stringify(collectData()));
+      alert("✅ Data saved for offline use!");
+    }
+    function loadData() {
+      const saved = localStorage.getItem("ics211Data");
+      if (!saved) return alert("No saved data found.");
+      const data = JSON.parse(saved);
+      document.getElementById("incidentName").value = data.incident;
+      document.getElementById("startDate").value = data.startDate;
+      document.getElementById("startTime").value = data.startTime;
+      Object.entries(data.checkboxes).forEach(([id, val]) => document.getElementById(id).checked = val);
+      const body = document.getElementById("checkinBody");
+      body.innerHTML = "";
+      data.rows.forEach(row => {
+        const tr = document.createElement("tr");
+        row.forEach(val => {
+          const td = document.createElement("td");
+          const input = document.createElement("input");
+          input.className = "w-full";
+          if (typeof val === "boolean") { input.type = "checkbox"; input.checked = val; }
+          else input.value = val;
+          td.appendChild(input);
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+      alert("✅ Data loaded from offline storage!");
+    }
+    function clearData() {
+      localStorage.removeItem("ics211Data");
+      alert("🗑️ Saved data cleared.");
+    }
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js");
+      });
+    }
+  </script>
+</body>
+</html>
